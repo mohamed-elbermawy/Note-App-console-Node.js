@@ -39,14 +39,30 @@ const removeNote = (title) => {
 
 //list Notes
 const listNotes = () => {
-  const data = loadData();
+  const notes = loadData();
   console.log(chalk.green.inverse.bold("All Notes: "));
   console.log("##############");
-  data.forEach((note) => {
+  notes.forEach((note) => {
     console.log(chalk.blue.inverse.bold("Title: " + note.title));
     console.log(chalk.blue.inverse.bold("body: " + note.body));
     console.log("-------------");
   });
+};
+
+// Read Note
+const readNotes = (title) => {
+  const notes = loadData();
+  const note = notes.find((note) => note.title === title);
+
+  if (note) {
+    console.log(chalk.green.inverse.bold("The Note: "));
+    console.log("##############");
+    console.log(chalk.blue.inverse.bold("Title: " + note.title));
+    console.log(chalk.blue.inverse.bold("body: " + note.body));
+    console.log("-------------");
+  } else {
+    console.log(chalk.red.inverse.bold(title + " Title deosn't exists!"));
+  }
 };
 
 // read data and convert it from json string to object
@@ -70,4 +86,5 @@ module.exports = {
   addNote,
   removeNote,
   listNotes,
+  readNotes,
 };
