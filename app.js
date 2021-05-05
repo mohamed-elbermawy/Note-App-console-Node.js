@@ -1,14 +1,10 @@
 const validator = require("validator");
-const chalk = require("chalk");
-const yargs = require("yargs");
-const getNotes = require("./notes");
 
-const notes = getNotes();
+const yargs = require("yargs");
+const notes = require("./notes");
 
 // console.log(notes);
 // console.log(validator.isEmail("m@lzf.eg"));
-// console.log(chalk.red("Error"));
-// console.log(chalk.bgGreen.bold.red("Success"));
 // console.log(yargs.argv);
 
 yargs.version("1.1.0");
@@ -30,8 +26,7 @@ yargs.command({
     },
   },
   handler: function (argv) {
-    console.log("Title : " + argv.title);
-    console.log("Body : " + argv.body);
+    notes.addNote(argv.title, argv.body);
   },
 });
 
@@ -39,8 +34,15 @@ yargs.command({
 yargs.command({
   command: "remove",
   describe: "Remote a note",
-  handler: function () {
-    console.log("Removing");
+  builder: {
+    title: {
+      describe: "Note Title ",
+      demandOption: true,
+      type: "string",
+    },
+  },
+  handler: function (argv) {
+    notes.removeNote(argv.title);
   },
 });
 
