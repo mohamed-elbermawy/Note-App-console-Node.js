@@ -2,12 +2,10 @@ const fs = require("fs");
 const chalk = require("chalk");
 
 // add new note to file
-const addNote = function (title, body) {
+const addNote = (title, body) => {
   const data = loadData();
 
-  const checkedTitles = data.filter(function (note) {
-    return note.title === title;
-  });
+  const checkedTitles = data.filter((note) => note.title === title);
 
   if (checkedTitles.length === 0) {
     data.push({
@@ -22,7 +20,7 @@ const addNote = function (title, body) {
 };
 
 //remove Note
-const removeNote = function (title) {
+const removeNote = (title) => {
   let data = loadData();
   let isexists = false;
   data.map((note) => {
@@ -39,8 +37,20 @@ const removeNote = function (title) {
   }
 };
 
+//list Notes
+const listNotes = () => {
+  const data = loadData();
+  console.log(chalk.green.inverse.bold("All Notes: "));
+  console.log("##############");
+  data.forEach((note) => {
+    console.log(chalk.blue.inverse.bold("Title: " + note.title));
+    console.log(chalk.blue.inverse.bold("body: " + note.body));
+    console.log("-------------");
+  });
+};
+
 // read data and convert it from json string to object
-const loadData = function () {
+const loadData = () => {
   try {
     const dataBuffer = fs.readFileSync("data.json");
     const dataString = dataBuffer.toString();
@@ -51,7 +61,7 @@ const loadData = function () {
 };
 
 // write data into file after convertting it from object to json string
-const saveData = function (data) {
+const saveData = (data) => {
   const stringData = JSON.stringify(data);
   fs.writeFileSync("data.json", stringData);
 };
@@ -59,4 +69,5 @@ const saveData = function (data) {
 module.exports = {
   addNote,
   removeNote,
+  listNotes,
 };
